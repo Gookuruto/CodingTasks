@@ -46,23 +46,21 @@ type Result struct {
 }
 
 //MakeOsrmRequest make a request based on source and destination points
-func MakeOsrmRequest(client *osrm.OsrmClient, source, destination models.Location) <-chan Result {
+func MakeOsrmRequest(client *osrm.OsrmClient, source, destination models.Location, route chan Result) <-chan Result {
 	r := make(chan Result)
 	var err2 error = nil
-	go func() {
-		request := &osrm.RouteRequest{
-			Coordinates: geo.PointSet{{source.Latitude, source.Longitude}, {destination.Latitude, destination.Longitude}},
-		}
-		resp, err := client.Route(request)
+	request := &osrm.RouteRequest{
+		Coordinates: geo.PointSet{{source.Latitude, source.Longitude}, {destination.Latitude, destination.Longitude}},
+	}
+	resp, err := client.Route(request)
 
-		if err != nil {
-			log.Print("route failed: %v", err)
-		}
-		if resp.Code != "Ok" {
-			err2 = errors.New(resp.Code)
-		}
-		r <- Result{models.NewRoute(resp.Routes[0].Distance, resp.Routes[0].Duration, destination), err2}
-	}()
+	if err != nil {
+		log.Print("route failed: %v", err)
+	}
+	if resp.Code != "Ok" {
+		err2 = errors.New(resp.Code)
+	}
+	route <- Result{models.NewRoute(resp.Routes[0].Distance, resp.Routes[0].Duration, destination), err2}
 	return r
 
 }

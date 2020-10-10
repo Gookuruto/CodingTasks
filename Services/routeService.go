@@ -15,11 +15,13 @@ func GetRoutes(c *gin.Context) (models.Response, error) {
 	var allRoutes []models.Route
 	source := c.Query("src")
 	sourceLocation := ParseStringLocation(source)
+	result := make(chan Result)
 	var err error
 
 	for _, destination := range destinations {
 		location := ParseStringLocation(destination)
-		route := <-MakeOsrmRequest(client, sourceLocation, location)
+		go MakeOsrmRequest(client, sourceLocation, location, result)
+		route := <-result
 		if route.Error != nil {
 			err = errors.New("some routes are not returned")
 		} else {
