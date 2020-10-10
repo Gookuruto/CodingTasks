@@ -6,5 +6,6 @@
 3. Docker with docker compose
     - from direcotry above "codingtask" run comand "docker build codingtask -t ct"
     - then from directory where docer-compose.yml file is run docker-compose up
+4. Just run CodingTasks.exe 
 
 in every scenarion api should be visible on localhost:8080

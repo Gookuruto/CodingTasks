@@ -14,7 +14,7 @@ func NewRouter() *gin.Engine {
 
 	routerController := new(controller.RouteController)
 
-	router.GET("/api/routes", routerController.FindRoutes)
+	router.GET("/routes", routerController.FindRoutes)
 
 	return router
 }
