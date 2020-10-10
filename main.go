@@ -2,5 +2,5 @@ package main
 
 func main() {
 	r := NewRouter()
-	r.Run("localhost:5000")
+	r.Run(":8080")
 }

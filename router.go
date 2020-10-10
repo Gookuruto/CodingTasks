@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/Gookuruto/CodingTasks/controller"
+	controller "github.com/Gookuruto/CodingTasks/Controller"
 	"github.com/gin-gonic/gin"
 )
 
